@@ -2,14 +2,37 @@ package com.example.todolist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
 
-/* This is the Screen that contains several views.
-* */
 class MainActivity : AppCompatActivity() {
-    /* Put anything we want to run immediately on startup within the onCreate() function.
-    * */
+
+    private lateinit var todoAdapter: TodoAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Pass empty list
+        todoAdapter = TodoAdapter(mutableListOf())
+        rvTodoItems.adapter = todoAdapter
+
+        // Define how items are arranged
+        rvTodoItems.layoutManager = LinearLayoutManager(this)
+
+        // Define what should happen when buttons are click
+        btnAddTodo.setOnClickListener {
+            val todoTitle = etTodoTitle.text.toString()
+            if (todoTitle.isNotEmpty()) {
+                val todo = Todo(todoTitle)
+                todoAdapter.addTodo(todo)
+                // Clear text for the next todo item to be entered
+                etTodoTitle.text.clear()
+            }
+        }
+
+        btnDeleteDoneTodo.setOnClickListener {
+            todoAdapter.deleteDoneTodos()
+        }
     }
 }
