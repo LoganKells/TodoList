@@ -172,3 +172,5 @@ fabric.properties
 .cxx
 #local.properties
 
+# Specific files
+/.idea/deploymentTargetDropDown.xml
